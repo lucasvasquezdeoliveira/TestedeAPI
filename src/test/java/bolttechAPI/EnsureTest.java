@@ -17,7 +17,7 @@ public class EnsureTest {
         //Cadastar um admin
         given()
                 .contentType("multipart/form-data")
-                .multiPart("email", "lucas@test21.com")
+                .multiPart("email", "lucas@test22.com")
                 .multiPart("password", "121212")
                 .multiPart("role", "admin")
                 .when()
@@ -25,6 +25,31 @@ public class EnsureTest {
                 .then()
                 .assertThat()
                     .statusCode(201);
+
+        //Cadastar um Write
+        given()
+                .contentType("multipart/form-data")
+                .multiPart("email", "lucas@test23.com")
+                .multiPart("password", "121212")
+                .multiPart("role", "write")
+                .when()
+                .post("/register")
+                .then()
+                .assertThat()
+                .statusCode(201);
+
+        //Cadastar um read
+        given()
+                .contentType("multipart/form-data")
+                .multiPart("email", "lucas@test24.com")
+                .multiPart("password", "121212")
+                .multiPart("role", "read")
+                .when()
+                .post("/register")
+                .then()
+                .assertThat()
+                .statusCode(201);
+
 
         // Logar com Admin
         String token = given()
@@ -92,7 +117,7 @@ public class EnsureTest {
                 .then()
                 .statusCode(401);
 
-        //Cadastrar Mais um usuario
+        //Cadastrar Mais um Cliente
         given()
                 .contentType(ContentType.JSON)
                 .header("accessToken", token)
@@ -110,7 +135,7 @@ public class EnsureTest {
                 .statusCode(200);
 
 
-        //Atualizar Usuario existente
+        //Atualizar Cliente existente
         given()
                 .contentType(ContentType.JSON)
                 .header("accessToken", token)
