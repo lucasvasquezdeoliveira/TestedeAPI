@@ -62,6 +62,17 @@ public class EnsureTest {
                 .then()
                     .extract()
                         .path("token");
+        // Logar com Write
+        String token1 = given()
+                .auth()
+                .preemptive()
+                .basic("lucas@test23com","121212")
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login")
+                .then()
+                .extract()
+                .path("token");
 
         // Cadastrar um cliente
 
@@ -133,6 +144,22 @@ public class EnsureTest {
                 .then()
                 .assertThat()
                 .statusCode(200);
+        //Cadastrar um Cliente com Usuario Read
+        given()
+                .contentType(ContentType.JSON)
+                .header("accessToken", token)
+                .body("[\n" +
+                        "{\n" +
+                        "\"fristname\":\"Daianne\",\n" +
+                        "\"lastname\":\"Budziak\",\n" +
+                        "\"email\":\"dai20@test20.com\"\n" +
+                        "}\n" +
+                        "]")
+                .when()
+                .post("/employees")
+                .then()
+                .assertThat()
+                .statusCode(401);
 
 
         //Atualizar Cliente existente
@@ -188,6 +215,21 @@ public class EnsureTest {
                 .then()
                 .assertThat()
                 .statusCode(200);
+
+        //Deletar cliente Existente com Usuario Write
+        given()
+                .contentType(ContentType.JSON)
+                .header("accessToken", token1)
+                .body("[\n" +
+                        "{\n" +
+                        "\"id\":\"1\"\n" +
+                        "}\n" +
+                        "]")
+                .when()
+                .delete("/employees")
+                .then()
+                .assertThat()
+                .statusCode(401);
 
     }
 }
